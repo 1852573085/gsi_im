@@ -1,0 +1,49 @@
+ext{
+    android = [
+            compileSdkVersion :28,
+            buildToolsVersion :"29.0.2",
+            applicationId :"com.aqiang.day0619_finance",
+            minSdkVersion :19,
+            targetSdkVersion :28,
+            versionCode :1,
+            versionName :"1.0"
+    ]
+
+    dependenciesVersion=[
+            retrofit:"2.5.0",
+            retrofitgson:"2.5.0",
+            retrofitrxjava:"2.5.0",
+            gson:"2.8.5",
+            rxandroid:"2.1.0",
+            rxjava:"2.2.5",
+            okhttplog:"3.5.0",
+            glide: "4.9.0",
+            design:"28.0.0",
+            banner:"1.4.10",
+            room:"1.0.0",
+            SmartRefreshLayout:"1.1.0",
+            arouter:"1.5.0",
+            arouter_compiler:"1.2.2",
+            zxing:"2.2"
+    ]
+
+    dependencies=[
+            retrofit:"com.squareup.retrofit2:retrofit:$dependenciesVersion.retrofit",
+            retrofitgson:"com.squareup.retrofit2:converter-gson:$dependenciesVersion.retrofitgson",
+            retrofitrxjava:"com.squareup.retrofit2:adapter-rxjava2:$dependenciesVersion.retrofitrxjava",
+            okhttplog:"com.squareup.okhttp3:logging-interceptor:$dependenciesVersion.okhttplog",
+            gson:"com.google.code.gson:gson:$dependenciesVersion.gson",
+            rxandroid:"io.reactivex.rxjava2:rxandroid:$dependenciesVersion.rxandroid",
+            rxjava:"io.reactivex.rxjava2:rxjava:$dependenciesVersion.rxjava",
+            glide:"com.github.bumptech.glide:glide:$dependenciesVersion.glide",
+            design:"com.android.support:design:$dependenciesVersion.design",
+            banner:"com.youth.banner:banner:$dependenciesVersion.banner",
+            room:"android.arch.persistence.room:runtime:$dependenciesVersion.room",
+            room_compiler:"android.arch.persistence.room:compiler:$dependenciesVersion.room",
+            SmartRefreshLayout:"com.scwang.smartrefresh:SmartRefreshLayout:$dependenciesVersion.SmartRefreshLayout",
+            SmartRefreshHeader:"com.scwang.smartrefresh:SmartRefreshHeader:$dependenciesVersion.SmartRefreshLayout",
+            arouter:"com.alibaba:arouter-api:$dependenciesVersion.arouter",
+            arouter_compiler:"com.alibaba:arouter-compiler:$dependenciesVersion.arouter_compiler",
+            zxing:"cn.yipianfengye.android:zxing-library:$dependenciesVersion.zxing"
+    ]
+}
