@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.mob.sdk'
 def proInfo = rootProject.ext.android
 android {
     compileSdkVersion proInfo.compileSdkVersion
@@ -28,4 +28,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(path: ':common')
+    if(userModelIsRuning.toBoolean()){
+        implementation project(path: ':usermodel')
+    }
 }

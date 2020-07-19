@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aqiang.usermodel" >
+    <application>
+        <activity android:name=".mvp.view.activity.LoginActivity"></activity>
+        <activity android:name=".mvp.view.activity.RegisterActivity"></activity>
+    </application>
+</manifest>
