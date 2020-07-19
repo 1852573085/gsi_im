@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.mob.sdk'
 def proInfo = rootProject.ext.android
+def libInfo = rootProject.ext.dependencies
 android {
     compileSdkVersion proInfo.compileSdkVersion
     buildToolsVersion proInfo.buildToolsVersion
@@ -11,6 +12,12 @@ android {
         versionCode proInfo.versionCode
         versionName proInfo.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -31,4 +38,18 @@ dependencies {
     if(userModelIsRuning.toBoolean()){
         implementation project(path: ':usermodel')
     }
+    if(homeIsRuning.toBoolean()){
+        implementation project(path: ':home')
+    }
+    implementation 'com.amap.api:3dmap:latest.integration'
+    //定位功能
+    implementation 'com.amap.api:location:latest.integration'
+    //搜索功能
+    implementation 'com.amap.api:search:latest.integration'
+    annotationProcessor libInfo.arouter_compiler
+    implementation libInfo.design
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation project(path: ':storage')
+    implementation project(path: ':core')
+    implementation project(path: ':net')
 }

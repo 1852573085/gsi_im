@@ -15,7 +15,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         setContentView(bindLayout());
         createPresenter();
-        initView();
+        initView(savedInstanceState);
         initData();
         initEvent();
     }
@@ -29,7 +29,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     protected abstract void createPresenter();
 
-    protected abstract void initView();
+    protected abstract void initView(Bundle savedInstanceState);
 
     protected abstract void initData();
 

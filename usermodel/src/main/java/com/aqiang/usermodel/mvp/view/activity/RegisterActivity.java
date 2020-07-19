@@ -1,14 +1,17 @@
 package com.aqiang.usermodel.mvp.view.activity;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.aqiang.common.NetHelper;
 import com.aqiang.core.mvp.view.BaseActivity;
 import com.aqiang.usermodel.R;
 import com.aqiang.usermodel.entity.UserEntity;
 import com.aqiang.usermodel.mvp.contract.UserContract;
 import com.aqiang.usermodel.mvp.presenter.UserPresenter;
+import com.baweigame.xmpplibrary.XmppManager;
 
 public class RegisterActivity extends BaseActivity<UserPresenter> implements UserContract.UserView {
 
@@ -27,7 +30,7 @@ public class RegisterActivity extends BaseActivity<UserPresenter> implements Use
     }
 
     @Override
-    protected void initView() {
+    protected void initView(Bundle savedInstanceState) {
         mEtActRegUser = (EditText) findViewById(R.id.et_act_reg_user);
         mEtActRegPwd = (EditText) findViewById(R.id.et_act_reg_pwd);
         mBtnActReg = (Button) findViewById(R.id.btn_act_reg);
@@ -46,6 +49,12 @@ public class RegisterActivity extends BaseActivity<UserPresenter> implements Use
                 UserEntity userEntity = new UserEntity();
                 userEntity.setUsername(getUser());
                 userEntity.setPwd(getPwd());
+                NetHelper.doTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        XmppManager.getInstance().getXmppUserManager().createAccount(getUser(),getPwd());
+                    }
+                });
                 mBasePresenter.register(userEntity);
             }
         });

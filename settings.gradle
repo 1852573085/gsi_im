@@ -1,1 +1,1 @@
-include ':app', ':core', ':net', ':common', ':storage', ':usermodel'
+include ':app', ':core', ':net', ':common', ':storage', ':usermodel', ':home', ':CommonLibrary', ':XmppLibrary'

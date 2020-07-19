@@ -14,7 +14,11 @@ android {
         versionName proInfo.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -38,4 +42,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     api libInfo.glide
+    api libInfo.arouter
+    annotationProcessor libInfo.arouter_compiler
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'//万能适配器
+    api 'com.android.support:recyclerview-v7:28.0.0'//recyclerview
 }

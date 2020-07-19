@@ -5,6 +5,7 @@ if (userModelIsRuning.toBoolean()) {
 }
 apply plugin: 'com.mob.sdk'
 def proInfo = rootProject.ext.android
+def libInfo = rootProject.ext.dependencies
 android {
     compileSdkVersion proInfo.compileSdkVersion
     buildToolsVersion proInfo.buildToolsVersion
@@ -17,7 +18,11 @@ android {
         versionName proInfo.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -37,27 +42,6 @@ android {
         }
     }
 }
-MobSDK {
-    appKey "替换为mob官方申请的appkey"
-    appSecret "替换为mob官方申请的appkey对应的appSecret"
-    ShareSDK {
-        loopShare false
-        devInfo {
-            Wechat {
-                appId "wx4868b35061f87885"
-                appSecret "64020361b8ec4c99936c0e3999a9f249"
-                userName "gh_afb25ac019c9"
-                path "pages/index/index.html?id=1"
-                withShareTicket true
-                miniprogramType 2
-            }
-            WechatMoments {
-                appId "wx4868b35061f87885"
-                appSecret "64020361b8ec4c99936c0e3999a9f249"
-            }
-        }
-    }
-}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -70,6 +54,8 @@ dependencies {
     implementation project(path: ':storage')
     implementation project(path: ':common')
     implementation project(path: ':net')
+    annotationProcessor libInfo.arouter_compiler
+    implementation project(path: ':XmppLibrary')
 }
 MobSDK {
     appKey "2f7b3233d30f8"
