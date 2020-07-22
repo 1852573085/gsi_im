@@ -16,6 +16,12 @@ public class TitleBar extends RelativeLayout {
     private TextView left;
     private TextView title;
     private TextView right;
+    private OnTitleBarViewClickListener onTitleBarViewClickListener;
+
+    public void setOnTitleBarViewClickListener(OnTitleBarViewClickListener onTitleBarViewClickListener) {
+        this.onTitleBarViewClickListener = onTitleBarViewClickListener;
+    }
+
     public TitleBar(Context context) {
         super(context);
     }
@@ -26,6 +32,19 @@ public class TitleBar extends RelativeLayout {
         left = view.findViewById(R.id.tv_view_left);
         title = view.findViewById(R.id.tv_view_title);
         right = view.findViewById(R.id.tv_view_right);
+        left.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTitleBarViewClickListener.leftListener();
+            }
+        });
+
+        right.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTitleBarViewClickListener.rightListener();
+            }
+        });
         addView(view);
         initAttrs(context,attrs);
     }
@@ -39,7 +58,7 @@ public class TitleBar extends RelativeLayout {
         int leftIcon = typedArray.getResourceId(R.styleable.TitleBar_leftIcon, 0);
         if(leftIcon != 0){
             Drawable drawable = ContextCompat.getDrawable(context, leftIcon);
-            drawable.setBounds(0,50,50,50);
+            drawable.setBounds(0,0,50,50);
             left.setCompoundDrawables(drawable,null,null,null);
         }
         String txt = typedArray.getString(R.styleable.TitleBar_title);
@@ -53,9 +72,11 @@ public class TitleBar extends RelativeLayout {
         int rightIcon = typedArray.getResourceId(R.styleable.TitleBar_rightIcon, 0);
         if(rightIcon != 0){
             Drawable drawable = ContextCompat.getDrawable(context, rightIcon);
-            drawable.setBounds(0,50,50,50);
+            drawable.setBounds(0,0,50,50);
             right.setCompoundDrawables(drawable,null,null,null);
         }
         typedArray.recycle();
     }
+
+
 }

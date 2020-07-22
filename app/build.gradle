@@ -35,10 +35,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(path: ':common')
-    if(userModelIsRuning.toBoolean()){
+    if (userModelIsRuning.toBoolean()) {
         implementation project(path: ':usermodel')
     }
-    if(homeIsRuning.toBoolean()){
+    if (homeIsRuning.toBoolean()) {
         implementation project(path: ':home')
     }
     implementation 'com.amap.api:3dmap:latest.integration'
@@ -52,4 +52,6 @@ dependencies {
     implementation project(path: ':storage')
     implementation project(path: ':core')
     implementation project(path: ':net')
+    implementation project(path: ':XmppLibrary')
+    implementation libInfo.zxing
 }

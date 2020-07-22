@@ -11,7 +11,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
-        SException.getInstance().init(this);
+//        SException.getInstance().init(this);
     }
 
     public static Context getContext(){
