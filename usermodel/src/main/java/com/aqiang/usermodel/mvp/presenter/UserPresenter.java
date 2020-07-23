@@ -5,6 +5,7 @@ import android.util.Log;
 import com.aqiang.net.BaseResponseEntity;
 import com.aqiang.net.observer.BaseObservable;
 import com.aqiang.net.observer.BaseObserver;
+import com.aqiang.storage.sp.SPUtils;
 import com.aqiang.usermodel.entity.UserEntity;
 import com.aqiang.usermodel.mvp.contract.UserContract;
 import com.aqiang.usermodel.mvp.model.UserRepository;
@@ -28,6 +29,7 @@ public class UserPresenter extends UserContract.UserPresenter {
                 @Override
                 public void next(BaseResponseEntity<UserEntity> userEntityBaseResponseEntity) {
                     if(userEntityBaseResponseEntity.getCode() == 200){
+                        SPUtils.getInstance().put("userCode",userEntityBaseResponseEntity.getData().getUsercode());
                         mView.get().succee();
                     }
                 }

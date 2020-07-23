@@ -3,6 +3,7 @@ package com.aqiang.day0714_gisim;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -87,6 +88,14 @@ public class MainActivity extends BaseActivity {
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
 //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
         aMap.setMyLocationEnabled(true);//
+        aMap.setOnMyLocationChangeListener(new AMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                double longitude = location.getLongitude();
+                double latitude = location.getLatitude();
+
+            }
+        });
     }
 
     @Override

@@ -19,10 +19,14 @@ public interface FindContract {
 
     interface FindModel extends IModel{
         Observable<BaseResponseEntity<List<UserEntity>>> findFriend(String username,String nick);
+
+        Observable<BaseResponseEntity<Boolean>> addFriend(String usercode,String friendcode);
     }
 
     abstract class FindRepository extends Repository<FindModel>{
         public abstract Observable<BaseResponseEntity<List<UserEntity>>> findFriend(String username,String nick);
+
+        public abstract Observable<BaseResponseEntity<Boolean>> addFriend(String usercode,String friendcode);
     }
 
     abstract class FindPresenter extends BasePresenter<FindRepository,FindView>{
@@ -32,5 +36,7 @@ public interface FindContract {
         }
 
         public abstract void findFriend(String username,String nick);
+
+        public abstract void addFriend(String usercode,String friendcode);
     }
 }

@@ -21,7 +21,9 @@ import com.aqiang.day0714_gisim.R;
 import com.aqiang.day0714_gisim.adapter.FindAdapter;
 import com.aqiang.day0714_gisim.mvp.contract.FindContract;
 import com.aqiang.day0714_gisim.mvp.presenter.FindPresenter;
+import com.aqiang.storage.sp.SPUtils;
 import com.aqiang.usermodel.entity.UserEntity;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
@@ -56,6 +58,15 @@ public class AddActivity extends BaseActivity<FindPresenter> implements FindCont
     @Override
     protected void initData() {
         list = new ArrayList<>();
+        findAdapter = new FindAdapter(R.layout.item_find,list);
+        mRvActAdd.setAdapter(findAdapter);
+        findAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                //showToast(""+SPUtils.getInstance().getObject("userCode","11"));
+                mBasePresenter.addFriend((String) SPUtils.getInstance().getObject("userCode","11"),list.get(position).getUsercode());
+            }
+        });
     }
 
     @Override
@@ -113,11 +124,6 @@ public class AddActivity extends BaseActivity<FindPresenter> implements FindCont
     @Override
     public void setAdapter(List<UserEntity> userEntities) {
         list.addAll(userEntities);
-        if(findAdapter == null){
-            findAdapter = new FindAdapter(R.layout.item_find,list);
-            mRvActAdd.setAdapter(findAdapter);
-        }else {
-            findAdapter.notifyDataSetChanged();
-        }
+        findAdapter.notifyDataSetChanged();
     }
 }

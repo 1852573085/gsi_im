@@ -16,6 +16,11 @@ public class FindRepository extends FindContract.FindRepository {
     }
 
     @Override
+    public Observable<BaseResponseEntity<Boolean>> addFriend(String usercode, String friendcode) {
+        return mModel.addFriend(usercode, friendcode);
+    }
+
+    @Override
     protected void createModel() {
         mModel = new FindService();
     }

@@ -15,4 +15,9 @@ public class FindService implements FindContract.FindModel {
     public Observable<BaseResponseEntity<List<UserEntity>>> findFriend(String username, String nick) {
         return RetrofitManager.getInstance().create(FindApi.class).findFriend(username, nick);
     }
+
+    @Override
+    public Observable<BaseResponseEntity<Boolean>> addFriend(String usercode, String friendcode) {
+        return RetrofitManager.getInstance().create(FindApi.class).addFriend(usercode, friendcode);
+    }
 }
