@@ -3,15 +3,17 @@
     package="com.aqiang.day0714_gisim">
 
     <application
-        android:usesCleartextTraffic="true"
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".mvp.view.activity.PhoneActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".mvp.view.activity.MsgActivity"></activity>
+        <activity android:name=".mvp.view.activity.SendMsgActivity" />
+        <activity android:name=".mvp.view.activity.PhoneActivity" />
         <activity android:name=".mvp.view.activity.AddActivity" />
         <activity android:name=".mvp.view.activity.FriendActivity" />
         <activity android:name=".MainActivity">

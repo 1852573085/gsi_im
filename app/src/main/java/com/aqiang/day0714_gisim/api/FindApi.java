@@ -1,6 +1,7 @@
 package com.aqiang.day0714_gisim.api;
 
 import com.aqiang.day0714_gisim.entity.LocalEntity;
+import com.aqiang.day0714_gisim.entity.MsgEntity;
 import com.aqiang.net.BaseResponseEntity;
 import com.aqiang.usermodel.entity.UserEntity;
 
@@ -27,4 +28,10 @@ public interface FindApi {
 
     @POST("api/UserLocation/uploadLocatoin")
     Observable<BaseResponseEntity<Boolean>> uploadLocal(@Body LocalEntity localEntity);
+
+    @POST("api/Chat/addChatMsg")
+    Observable<BaseResponseEntity<Boolean>> addMsg(@Body MsgEntity msgEntity);
+
+    @GET("api/Chat/getChatMsg?")
+    Observable<BaseResponseEntity<List<MsgEntity>>> getMsg(@Query("user1") String user1,@Query("user2") String user2,@Query("page") int page,@Query("pagesize") int pagesize);
 }

@@ -20,8 +20,8 @@
             android:layout_marginBottom="150dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/rl_back"
-            android:layout_width="300dp"
-            android:layout_height="300dp">
+            android:layout_width="260dp"
+            android:layout_height="260dp">
             <TextView
                 android:textSize="20sp"
                 android:gravity="center"
@@ -101,6 +101,23 @@
                     android:tint="#FFFFFFFF" />
             </com.aqiang.common.widget.BNViewGroup>
         </RelativeLayout>
+
+        <android.support.v7.widget.CardView
+            app:cardBackgroundColor="#BDB8B8"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="200dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:cardCornerRadius="30dp"
+            android:layout_width="70dp"
+            android:layout_height="300dp">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_act_main_user"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.CardView>
     </RelativeLayout>
     <android.support.design.widget.NavigationView
         android:layout_gravity="left"

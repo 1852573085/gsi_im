@@ -79,4 +79,7 @@ public class TitleBar extends RelativeLayout {
     }
 
 
+    public void setTitleText(String text){
+        title.setText(text);
+    }
 }

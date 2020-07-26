@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.aqiang.common.widget.OnTitleBarViewClickListener;
 import com.aqiang.common.widget.TitleBar;
@@ -22,6 +23,7 @@ import com.aqiang.storage.sp.SPUtils;
 import com.aqiang.usermodel.entity.UserEntity;
 import com.baweigame.xmpplibrary.XmppManager;
 import com.baweigame.xmpplibrary.callback.IAddFriendCallback;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import org.jxmpp.jid.Jid;
 
@@ -94,13 +96,22 @@ public class FriendActivity extends BaseActivity<FriendsPresenter> implements Fr
     }
 
     @Override
-    public void initAdapter(List<UserEntity> list) {
+    public void initAdapter(final List<UserEntity> list) {
         if(friendsAdapter == null){
             friendsAdapter = new FriendsAdapter(R.layout.item_friends,list);
             mRvActMainFriends.setAdapter(friendsAdapter);
             mRvActMainAdd.setAdapter(friendsAdapter);
+            friendsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    Intent intent = new Intent(FriendActivity.this, SendMsgActivity.class);
+                    intent.putExtra("username",list.get(position).getUsername());
+                    startActivity(intent);
+                }
+            });
         }else {
             friendsAdapter.notifyDataSetChanged();
         }
     }
+
 }

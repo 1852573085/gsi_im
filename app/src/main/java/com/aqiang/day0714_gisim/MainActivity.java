@@ -2,6 +2,8 @@ package com.aqiang.day0714_gisim;
 
 import android.Manifest;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
@@ -10,6 +12,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,21 +28,34 @@ import com.aqiang.common.router.RouterPath;
 import com.aqiang.common.widget.BNViewGroup;
 import com.aqiang.common.widget.OnViewClickListener;
 import com.aqiang.core.mvp.view.BaseActivity;
+import com.aqiang.day0714_gisim.adapter.MainUserAdapter;
+import com.aqiang.day0714_gisim.entity.LocalEntity;
+import com.aqiang.day0714_gisim.entity.MsgEntity;
+import com.aqiang.day0714_gisim.mvp.contract.LocalContract;
+import com.aqiang.day0714_gisim.mvp.presenter.LocalPresenter;
 import com.aqiang.day0714_gisim.mvp.view.activity.FriendActivity;
+import com.aqiang.day0714_gisim.mvp.view.activity.MsgActivity;
+import com.aqiang.day0714_gisim.sql.MsgSql;
 import com.aqiang.storage.sp.SPUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Route(path = RouterPath.MAIN_ACTIVITY)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<LocalPresenter> implements LocalContract.LocalView {
     private AMap aMap;
     private MapView mMapActMain;
     private DrawerLayout mDlActMain;
     private NavigationView mNvActMain;
+    private SQLiteDatabase db;
     private Button mbtLogin;
     private TextView mtvName;
     private MyLocationStyle myLocationStyle;
     private BNViewGroup mBnviewgroupActMain;
     private ImageView mIvActMainMsg;
-
+    private RecyclerView mRvActMainUser;
+    private MainUserAdapter mainUserAdapter;
+    private List<MsgEntity> list;
     @Override
     protected int bindLayout() {
         return R.layout.activity_main;
@@ -46,7 +63,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void createPresenter() {
-
+        mBasePresenter = new LocalPresenter(this);
     }
 
     @Override
@@ -76,10 +93,13 @@ public class MainActivity extends BaseActivity {
         }
         mBnviewgroupActMain = (BNViewGroup) findViewById(R.id.bnviewgroup_act_main);
         mBnviewgroupActMain.showView(mIvActMainMsg);
+        mRvActMainUser = (RecyclerView) findViewById(R.id.rv_act_main_user);
+        mRvActMainUser.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     protected void initData() {
+        list = new ArrayList<>();
         if (aMap == null) {
             aMap = mMapActMain.getMap();
         }
@@ -93,9 +113,36 @@ public class MainActivity extends BaseActivity {
             public void onMyLocationChange(Location location) {
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
-
+                LocalEntity localEntity = new LocalEntity();
+                localEntity.setLon(longitude);
+                localEntity.setLat(latitude);
+                mBasePresenter.uploadLocal(localEntity);
             }
         });
+        MsgSql msgSql = new MsgSql(this);
+        db = msgSql.getReadableDatabase();
+        Cursor cursor = db.query("msg", null, null, null, "user", null, null);
+        if(cursor != null){
+            while (cursor.moveToNext()){
+                String user = cursor.getString(cursor.getColumnIndex("user"));
+                String msg = cursor.getString(cursor.getColumnIndex("msg"));
+                String times = cursor.getString(cursor.getColumnIndex("times"));
+                MsgEntity msgEntity = new MsgEntity();
+                msgEntity.setTouser(user);
+                msgEntity.setMsg(msg);
+                msgEntity.setMsgtime(times);
+                if(!list.contains(msgEntity)){
+                    list.add(msgEntity);
+                }
+            }
+            cursor.close();
+        }
+        if(mainUserAdapter == null){
+            mainUserAdapter = new MainUserAdapter(R.layout.item_main,list);
+            mRvActMainUser.setAdapter(mainUserAdapter);
+        }else {
+            mainUserAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -120,7 +167,7 @@ public class MainActivity extends BaseActivity {
                 }else if(position == 1){
                     showToast("22");
                 }else if(position == 2){
-                    showToast("33");
+                    startActivity(new Intent(MainActivity.this, MsgActivity.class));
                 }else if(position == 3){
                     showToast("44");
                 }else if(position == 4){
