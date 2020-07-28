@@ -1,6 +1,7 @@
 package com.aqiang.day0714_gisim.mvp.view.activity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 
 import com.aqiang.common.widget.TitleBar;
 import com.aqiang.core.mvp.view.BaseActivity;
+import com.aqiang.day0714_gisim.MainActivity;
 import com.aqiang.day0714_gisim.R;
 import com.aqiang.day0714_gisim.adapter.MsgAdapter;
 import com.aqiang.day0714_gisim.entity.MsgEntity;
@@ -22,6 +24,9 @@ import com.aqiang.day0714_gisim.mvp.contract.MsgContract;
 import com.aqiang.day0714_gisim.mvp.presenter.MsgPresenter;
 import com.aqiang.day0714_gisim.sql.MsgSql;
 import com.aqiang.storage.sp.SPUtils;
+import com.baweigame.xmpplibrary.XmppManager;
+
+import org.jivesoftware.smack.chat2.Chat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +46,7 @@ public class SendMsgActivity extends BaseActivity<MsgPresenter> implements MsgCo
     private String user;
     private LinearLayoutManager linearLayoutManager;
     private SQLiteDatabase db;
+    private ImageView mIvActSendMsgPhoto;
 
     @Override
     protected int bindLayout() {
@@ -63,6 +69,7 @@ public class SendMsgActivity extends BaseActivity<MsgPresenter> implements MsgCo
         mIvActSendMsgPic = (ImageView) findViewById(R.id.iv_act_send_msg_pic);
         linearLayoutManager = new LinearLayoutManager(this);
         mRvActSendMsg.setLayoutManager(linearLayoutManager);
+        mIvActSendMsgPhoto = (ImageView) findViewById(R.id.iv_act_send_msg_photo);
     }
 
     @Override
@@ -90,9 +97,31 @@ public class SendMsgActivity extends BaseActivity<MsgPresenter> implements MsgCo
                 msgEntity.setFromuser(user);
                 msgEntity.setTouser(username);
                 msgEntity.setMsg(mEtActSendMsg.getText().toString());
+
+//                String friend = username + "@" + XmppManager.getInstance().getConnection().getServiceName();
+//                String msg = mEtActSendMsg.getText().toString();
+//                Chat friendChat = XmppManager.getInstance().getXmppMsgManager().getFriendChat(friend);
+//                XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(friendChat, msg);
+
+                //String mine = (String) SPUtils.get(SendMsgActivity.this, "currentuser", "");
+                //msgEntities.add(new MsgEntity(mine, etMainFriendPhonenumber.getText().toString(), msg, MsgEntity.MsgType.Txt));
+                //myAdapter.notifyDataSetChanged();
+
                 mBasePresenter.addMsg(msgEntity);
-                mBasePresenter.getMsg(user,username);
+                list.add(msgEntity);
+                if(msgAdapter != null){
+                    msgAdapter.notifyDataSetChanged();
+                }
+                //mBasePresenter.getMsg(user,username);
                 mEtActSendMsg.setText("");
+            }
+        });
+
+
+        mIvActSendMsgPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SendMsgActivity.this,VideoActivity.class));
             }
         });
     }
@@ -101,7 +130,7 @@ public class SendMsgActivity extends BaseActivity<MsgPresenter> implements MsgCo
     public void initAdapter(List<MsgEntity> list) {
         this.list.clear();
         this.list.addAll(list);
-        if(list != null){
+        if(list != null && list.size() > 0){
             ContentValues values = new ContentValues();
             values.put("user",list.get(0).getTouser());
             values.put("msg",list.get(0).getMsg());

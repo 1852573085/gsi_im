@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".mvp.view.activity.MsgActivity"></activity>
+        <activity android:name=".mvp.view.activity.VideoActivity"></activity>
+        <activity android:name=".mvp.view.activity.MsgActivity" />
         <activity android:name=".mvp.view.activity.SendMsgActivity" />
         <activity android:name=".mvp.view.activity.PhoneActivity" />
         <activity android:name=".mvp.view.activity.AddActivity" />

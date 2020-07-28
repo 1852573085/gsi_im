@@ -35,14 +35,18 @@ public class TitleBar extends RelativeLayout {
         left.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                onTitleBarViewClickListener.leftListener();
+                if(onTitleBarViewClickListener != null){
+                    onTitleBarViewClickListener.leftListener();
+                }
             }
         });
 
         right.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                onTitleBarViewClickListener.rightListener();
+                if(onTitleBarViewClickListener != null){
+                    onTitleBarViewClickListener.rightListener();
+                }
             }
         });
         addView(view);

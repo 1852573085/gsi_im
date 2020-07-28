@@ -1,6 +1,7 @@
 package com.aqiang.day0714_gisim;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,9 +15,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -37,6 +43,7 @@ import com.aqiang.day0714_gisim.mvp.view.activity.FriendActivity;
 import com.aqiang.day0714_gisim.mvp.view.activity.MsgActivity;
 import com.aqiang.day0714_gisim.sql.MsgSql;
 import com.aqiang.storage.sp.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +63,9 @@ public class MainActivity extends BaseActivity<LocalPresenter> implements LocalC
     private RecyclerView mRvActMainUser;
     private MainUserAdapter mainUserAdapter;
     private List<MsgEntity> list;
+    private LinearLayout mLlActMain;
+    private TextView mTvActMainUser;
+
     @Override
     protected int bindLayout() {
         return R.layout.activity_main;
@@ -74,7 +84,9 @@ public class MainActivity extends BaseActivity<LocalPresenter> implements LocalC
                     Manifest.permission.READ_CONTACTS,
                     "android.permission.ACCESS_COARSE_LOCATION",
                     "android.permission.READ_PHONE_STATE",
-                    Manifest.permission.CAMERA
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
             },0);
         }
         mMapActMain = (MapView) findViewById(R.id.map_act_main);
@@ -95,6 +107,8 @@ public class MainActivity extends BaseActivity<LocalPresenter> implements LocalC
         mBnviewgroupActMain.showView(mIvActMainMsg);
         mRvActMainUser = (RecyclerView) findViewById(R.id.rv_act_main_user);
         mRvActMainUser.setLayoutManager(new LinearLayoutManager(this));
+        mLlActMain = (LinearLayout) findViewById(R.id.ll_act_main);
+        mTvActMainUser = (TextView) findViewById(R.id.tv_act_main_user);
     }
 
     @Override
@@ -140,6 +154,24 @@ public class MainActivity extends BaseActivity<LocalPresenter> implements LocalC
         if(mainUserAdapter == null){
             mainUserAdapter = new MainUserAdapter(R.layout.item_main,list);
             mRvActMainUser.setAdapter(mainUserAdapter);
+            mainUserAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    mTvActMainUser.setText(list.get(position).getTouser());
+                    ValueAnimator animator = ValueAnimator.ofInt(0, 350);
+                    animator.setDuration(3000);
+                    animator.setInterpolator(new LinearInterpolator());
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            ViewGroup.LayoutParams layoutParams = mLlActMain.getLayoutParams();
+                            layoutParams.width = (int) animation.getAnimatedValue();
+                            mLlActMain.setLayoutParams(layoutParams);
+                        }
+                    });
+                    animator.start();
+                }
+            });
         }else {
             mainUserAdapter.notifyDataSetChanged();
         }
@@ -204,4 +236,27 @@ public class MainActivity extends BaseActivity<LocalPresenter> implements LocalC
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapActMain.onSaveInstanceState(outState);
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if(ev.getAction() == MotionEvent.ACTION_DOWN){
+            final ViewGroup.LayoutParams layoutParams = mLlActMain.getLayoutParams();
+            if(layoutParams.width > 0){
+                ValueAnimator animator = ValueAnimator.ofInt(350, 0);
+                animator.setDuration(3000);
+                animator.setInterpolator(new LinearInterpolator());
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        layoutParams.width = (int) animation.getAnimatedValue();
+                        mLlActMain.setLayoutParams(layoutParams);
+                    }
+                });
+                animator.start();
+            }
+
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
 }
