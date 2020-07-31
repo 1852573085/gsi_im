@@ -3,6 +3,7 @@ package com.aqiang.day0714_gisim.mvp.view.activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.aqiang.core.mvp.view.BaseActivity;
 import com.aqiang.day0714_gisim.MainActivity;
 import com.aqiang.day0714_gisim.R;
 import com.aqiang.day0714_gisim.adapter.MsgAdapter;
+import com.aqiang.day0714_gisim.audio.LameMp3Manager;
 import com.aqiang.day0714_gisim.entity.MsgEntity;
 import com.aqiang.day0714_gisim.mvp.contract.MsgContract;
 import com.aqiang.day0714_gisim.mvp.presenter.MsgPresenter;
@@ -47,7 +49,7 @@ public class SendMsgActivity extends BaseActivity<MsgPresenter> implements MsgCo
     private LinearLayoutManager linearLayoutManager;
     private SQLiteDatabase db;
     private ImageView mIvActSendMsgPhoto;
-
+    private boolean isStart = false;
     @Override
     protected int bindLayout() {
         return R.layout.activity_send_msg;
@@ -124,6 +126,19 @@ public class SendMsgActivity extends BaseActivity<MsgPresenter> implements MsgCo
                 startActivity(new Intent(SendMsgActivity.this,VideoActivity.class));
             }
         });
+
+        mIvActSendMsgWheat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isStart){
+                    LameMp3Manager.instance.startRecorder(Environment.getExternalStoragePublicDirectory("DCIM").getAbsolutePath() + ".mp3");
+                    isStart = true;
+                }else {
+                    LameMp3Manager.instance.stopRecorder();
+                    isStart = false;
+                }
+            }
+        });
     }
 
     @Override
@@ -170,4 +185,5 @@ public class SendMsgActivity extends BaseActivity<MsgPresenter> implements MsgCo
             }
         }
     }
+
 }

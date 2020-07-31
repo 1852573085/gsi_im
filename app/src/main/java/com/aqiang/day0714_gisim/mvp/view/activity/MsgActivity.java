@@ -25,6 +25,7 @@ public class MsgActivity extends BaseActivity {
     private RecyclerView mRvActMsg;
     private SQLiteDatabase db;
     private MsgUserAdapter msgUserAdapter;
+
     @Override
     protected int bindLayout() {
         return R.layout.activity_msg;
@@ -83,4 +84,5 @@ public class MsgActivity extends BaseActivity {
     protected void initEvent() {
 
     }
+
 }

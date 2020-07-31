@@ -14,56 +14,25 @@
         android:layout_height="50dp">
 
     </com.aqiang.common.widget.TitleBar>
-
-    <EditText
-        android:singleLine="true"
-        android:imeOptions="actionSearch"
-        android:id="@+id/et_act_add_friends"
-        android:background="@android:drawable/edit_text"
-        android:layout_margin="10dp"
+    <android.support.design.widget.TabLayout
+        android:background="#359A9A"
+        android:id="@+id/tab_act_add"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-<TextView
-    android:background="#8D8989"
-    android:layout_width="match_parent"
-    android:layout_height="1dp" />
-
-    <TextView
-        android:id="@+id/tv_act_add_phone"
-        android:layout_margin="10dp"
-        android:textSize="20sp"
-        android:text="添加手机联系人"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TabItem
+            android:text="找人"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.design.widget.TabItem
+            android:text="找群"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.TabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_act_add"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:background="#8D8989"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
-    <TextView
-        android:layout_marginTop="2dp"
-        android:background="#8D8989"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
-    <TextView
-        android:id="@+id/tv_act_add_face"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:text="面对面加好友"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:background="#8D8989"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:id="@+id/rv_act_add"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>
